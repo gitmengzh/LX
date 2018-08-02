@@ -56,17 +56,35 @@ FileDate:
 
 
 def get_folder_pe_file(folder_path):
-    re.match(r'.exe.dll.sys')
-    file_tpye = ['.exe','.dll','.sys']
+
+    #re.match(r'.exe.dll.sys')
+
+    #file_tpye = ([])
     names = os.listdir(folder_path)
+    path = []
     pe_names = []
     for name in names:
-        if os.path.splitext(name)[1] == file_tpye:
-            pe_names = name
+        path = folder_path+'\\'+name
+        if os.path.isdir(path):
+            path = folder_path+'\\'+name
+        else:
+            if name.endswith(('.exe','.dll','.sys')):
+                pe_names = name
+                print(pe_names)
+                file_path = folder_path+'\\'+pe_names
 
-            print(pe_names)
+                try:
+                    info = win32api.GetFileVersionInfo(file_path,'\\')
+                    ms = info['FileVersionMS']
+                    ls = info['FileVersionLS']
+                    version = '%d.%d.%d.%d'%(win32api.HIWORD(ms),win32api.LOWORD(ms),win32api.HIWORD(ls),win32api.LOWORD(ls))
+                    dict = {pe_names:version}
+                except:
+                    print("the file no version")
+                print(dict)
 
 
 
 
-test = get_folder_pe_file("C:\\Program Files (x86)\\Microsoft CAPICOM 2.1.0.2 SDK\\Lib\\X86")
+test = get_folder_pe_file("C:\\Program Files (x86)\\COMODO\\COMODO Secure Shopping")
+#test = get_folder_pe_file("C:\\Program Files (x86)\\COMODO\\test")
