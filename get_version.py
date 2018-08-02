@@ -11,6 +11,7 @@
 #2 编写带界面工具
 #3 打包成exe
 import win32api,win32com.client
+import os,re
 
 
 def get_file_version(file_path):
@@ -33,10 +34,10 @@ def get_file_version(file_path):
 
 #test = get_file_version("C:\\Windows\\System32\\notepad.exe")
 
-sign = win32com.client.gencache.EnsureDispatch('capicom.signedcode',0)
+'''sign = win32com.client.gencache.EnsureDispatch('capicom.signedcode',0)
 sign.FileName = r'C:\Windows\System32\notepad.exe'
 signer = sign.Signer
-print(signer.Certificate.IssueName,signer.Certificate.SerialNumber)
+print(signer.Certificate.IssueName,signer.Certificate.SerialNumber)'''
 '''
 GetFileVersionInfo 返回值：
 Signature:
@@ -52,3 +53,20 @@ FileType:
 FileSubtype:
 FileDate:
 '''
+
+
+def get_folder_pe_file(folder_path):
+    re.match(r'.exe.dll.sys')
+    file_tpye = ['.exe','.dll','.sys']
+    names = os.listdir(folder_path)
+    pe_names = []
+    for name in names:
+        if os.path.splitext(name)[1] == file_tpye:
+            pe_names = name
+
+            print(pe_names)
+
+
+
+
+test = get_folder_pe_file("C:\\Program Files (x86)\\Microsoft CAPICOM 2.1.0.2 SDK\\Lib\\X86")
