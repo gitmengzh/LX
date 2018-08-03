@@ -73,45 +73,49 @@ def get_folder_pe_file(folder_path):
                 print(pe_names)
                 file_path = folder_path+'\\'+pe_names
 
-                try:
-                    info = win32api.GetFileVersionInfo(file_path,'\\')
-                    ms = info['FileVersionMS']
-                    ls = info['FileVersionLS']
-                    version = '%d.%d.%d.%d'%(win32api.HIWORD(ms),win32api.LOWORD(ms),win32api.HIWORD(ls),win32api.LOWORD(ls))
-                    dict = {pe_names:version}
-                except:
-                    print("the file no version")
-                print(dict)
 
 
 
 
-test = get_folder_pe_file("C:\\Program Files (x86)\\COMODO\\COMODO Secure Shopping")
+
+#test = get_folder_pe_file("C:\\Program Files (x86)\\COMODO\\COMODO Secure Shopping")
 #test = get_folder_pe_file("C:\\Program Files (x86)\\COMODO\\test")
 
-
+#通过OS.walk获取文件夹所有指定文件，包括子文件夹中
 def get_all_files(folder_path):
-
-
-
 
     for maindir, subdir,file_name_list in os.walk(folder_path):
         for filename in file_name_list:
-            apath = os.path.join(maindir,filename)
-            if True:
-                try:
+            if filename.endswith(('.exe','.dll','.sys')):
+                apath = os.path.join(maindir,filename)
+                path = [apath,filename]
+                print(path)
+                #return apath,filename
 
+    try:
+        new_path = os.path.join(maindir,subdir)
+        test = get_all_files(new_path)
+    except:
+        print('no subdir')
+        exit()
+    return  path
 
+#test3 = get_all_files("C:\\Program Files (x86)\\COMODO\\test")
 
+def get_file_version1(folder_path):
+    file_path = get_all_files(folder_path)
+    pe_names = file_path[1]
+    try:
+        info = win32api.GetFileVersionInfo(file_path[0], '\\')
+        ms = info['FileVersionMS']
+        ls = info['FileVersionLS']
+        version = '%d.%d.%d.%d' % (win32api.HIWORD(ms), win32api.LOWORD(ms), win32api.HIWORD(ls), win32api.LOWORD(ls))
 
-    path =[]
-    names = os.listdir(folder_path1)
-    for name in names:
+        dict = {pe_names: version}
+    except:
+        print("the file no version")
+    print(dict)
 
-       if os.path.isdir(name):
-          folder_path2 = folder_path1+'\\'+name
-       else:
-           if name.endswith(('.exe','.dll','.sys')):
-                file_name = folder_path1+'\\'+name
-                pe_names = name
-                return pe_names
+#test1 = get_all_files("C:\\Program Files (x86)\\COMODO\\COMODO Secure Shopping")
+test2 = get_file_version1("C:\\Program Files (x86)\\COMODO\\test")
+
