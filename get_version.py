@@ -88,3 +88,30 @@ def get_folder_pe_file(folder_path):
 
 test = get_folder_pe_file("C:\\Program Files (x86)\\COMODO\\COMODO Secure Shopping")
 #test = get_folder_pe_file("C:\\Program Files (x86)\\COMODO\\test")
+
+
+def get_all_files(folder_path):
+
+
+
+
+    for maindir, subdir,file_name_list in os.walk(folder_path):
+        for filename in file_name_list:
+            apath = os.path.join(maindir,filename)
+            if True:
+                try:
+
+
+
+
+    path =[]
+    names = os.listdir(folder_path1)
+    for name in names:
+
+       if os.path.isdir(name):
+          folder_path2 = folder_path1+'\\'+name
+       else:
+           if name.endswith(('.exe','.dll','.sys')):
+                file_name = folder_path1+'\\'+name
+                pe_names = name
+                return pe_names
