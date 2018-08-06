@@ -88,9 +88,17 @@ def get_all_files(folder_path):
         for filename in file_name_list:
             if filename.endswith(('.exe','.dll','.sys')):
                 apath = os.path.join(maindir,filename)
-                path = [apath,filename]
-                print(path)
-                #return apath,filename
+                path = []
+                filenames = []
+                path.append(apath)
+                filenames.append(filename)
+
+                #如何合并两个字典，将字典传给get_version函数
+                path1 = dict(zip(path, filenames))
+                path2 = dict(path1)
+                path2.update(path2)
+
+    print(path2)
 
     try:
         new_path = os.path.join(maindir,subdir)
@@ -98,7 +106,10 @@ def get_all_files(folder_path):
     except:
         print('no subdir')
         exit()
-    return  path
+
+
+
+    # return apath,filename
 
 #test3 = get_all_files("C:\\Program Files (x86)\\COMODO\\test")
 
@@ -114,8 +125,12 @@ def get_file_version1(folder_path):
         dict = {pe_names: version}
     except:
         print("the file no version")
+
+
     print(dict)
 
 #test1 = get_all_files("C:\\Program Files (x86)\\COMODO\\COMODO Secure Shopping")
-test2 = get_file_version1("C:\\Program Files (x86)\\COMODO\\test")
+#test2 = get_file_version1("C:\\Program Files (x86)\\COMODO\\test")
+test3 = get_all_files("C:\\Program Files (x86)\\COMODO\\test")
+
 
