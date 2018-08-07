@@ -59,7 +59,7 @@ def get_all_files(folder_path):
     path2 = {}
     path = []
     filenames = []
-    for maindir, subdir,file_name_list in os.walk(folder_path):
+    for maindir, subdir,file_name_list in os.walk(folder_path):  #根目录下的每一个文件夹包含自己，产生3-元组，
         for filename in file_name_list:
             if filename.endswith(('.exe','.dll','.sys')):
                 apath = os.path.join(maindir,filename)
@@ -70,15 +70,8 @@ def get_all_files(folder_path):
                 path1 = dict(zip(path, filenames))
                 path2.update(path1)
 
-        print(path2)
-        return (path2)
-    try:
-        new_path = os.path.join(maindir,subdir)
-        test = get_all_files(new_path)
-    except:
-        print('no subdir')
-        exit()
-
+    print(path2)
+    return (path2)
 
 
 
@@ -109,9 +102,61 @@ def get_file_version1(folder_path):
 
 #test1 = get_all_files("C:\\Program Files (x86)\\COMODO\\COMODO Secure Shopping")
 #test1 = get_file_version1("C:\\Program Files (x86)\\COMODO\\COMODO Secure Shopping")
-test2 = get_file_version1("C:\\Program Files (x86)\\COMODO\\test")
+#test2 = get_file_version1("C:\\Program Files (x86)\\COMODO\\test")
 #test3 = get_all_files("C:\\Program Files (x86)\\COMODO\\test")
 
+def get_all_files1(folder_path):
+
+    for maindir, sub_dir, file_name_list in os.walk(folder_path):
+        for filename in file_name_list:
+            print(os.path.join(maindir,filename))
+        #for subdir in sub_dir:
+            #print(os.path.join(maindir,subdir))
+
+
+
+#test3 = get_all_files1("C:\\Program Files (x86)\\COMODO\\test")
+
+#获取文件所有属性
+def get_file_perties(file_path):
+    """
+      Read all properties of the given file return them as a dictionary.
+      """
+    propNames = ('Comments', 'InternalName', 'ProductName',
+                 'CompanyName', 'LegalCopyright', 'ProductVersion',
+                 'FileDescription', 'LegalTrademarks', 'PrivateBuild',
+                 'FileVersion', 'OriginalFilename', 'SpecialBuild')
+
+    props = {'FixedFileInfo': None, 'StringFileInfo': None, 'FileVersion': None}
+
+    try:
+        # backslash as parm returns dictionary of numeric info corresponding to VS_FIXEDFILEINFO struc
+        fixedInfo = win32api.GetFileVersionInfo(file_path, '\\')
+        props['FixedFileInfo'] = fixedInfo
+        props['FileVersion'] = "%d.%d.%d.%d" % (fixedInfo['FileVersionMS'] / 65536,
+                                                fixedInfo['FileVersionMS'] % 65536, fixedInfo['FileVersionLS'] / 65536,
+                                                fixedInfo['FileVersionLS'] % 65536)
+
+        # \VarFileInfo\Translation returns list of available (language, codepage)
+        # pairs that can be used to retreive string info. We are using only the first pair.
+        lang, codepage = win32api.GetFileVersionInfo(file_path, '\\VarFileInfo\\Translation')[0]
+
+        # any other must be of the form \StringfileInfo\%04X%04X\parm_name, middle
+        # two are language/codepage pair returned from above
+
+        strInfo = {}
+        for propName in propNames:
+            strInfoPath = u'\\StringFileInfo\\%04X%04X\\%s' % (lang, codepage, propName)
+            ## print str_info
+            strInfo[propName] = win32api.GetFileVersionInfo(file_path, strInfoPath)
+
+        props['StringFileInfo'] = strInfo
+    except:
+        pass
+    if not props["StringFileInfo"]:
+        return (None, None)
+    else:
+        return (props["StringFileInfo"]["CompanName"], props["StringFileInfo"]["ProductName"])
 
 
 
@@ -120,15 +165,8 @@ test2 = get_file_version1("C:\\Program Files (x86)\\COMODO\\test")
 
 
 
-
-
-
-
-
-
-
-
-
+#test5 = get_file_perties("C:\\Program Files (x86)\\COMODO\\test\\ccav-aaa.exe")
+test5 = get_file_perties("C:\\Program Files\\Notepad++\\notepad++.exe")
 
 
 
