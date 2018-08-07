@@ -93,6 +93,5 @@ def writeDicToFile(dicName, outputFileName="company.txt"):
 
 # 主函数
 if __name__ == "__main__":
-    getCompanyNameFromDir(u"C:\\Program Files\\Notepad++\\notepad++.exe")
-    print
-    "ok finish"
+    getCompanyNameFromDir(u"C:\\windows\\system32\\notepad.exe")
+    print("ok finish")
