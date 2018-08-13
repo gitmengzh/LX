@@ -8,8 +8,9 @@
 
 
 import wx
+def test():
 
-app = wx.App(False)
-frame = wx.Frame(None, wx.ID_ANY, "hello world!")
-frame.Show(True)
-app.MainLoop()
+    app = wx.App(False)
+    frame = wx.Frame(None, wx.ID_ANY, "hello world!")
+    frame.Show(True)
+    app.MainLoop()
