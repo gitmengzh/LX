@@ -12,13 +12,15 @@ def get_live_game_list():
     api = dota2api.Initialise(API_KEY,raw_mode=True)
     try:
         #test1 = api.get_heroes()
-        test2 = api.get_league_listing()
+        #test2 = api.get_league_listing()
+        #test3 = api.get_live_league_games()
+        test4 = api.get_game_items()
         #test = api.get_live_league_games()
-        print(test2)
-        json_str = json.dumps(test2)
-        print(json_str)
+        print(test4)
+        #json_str = json.dumps(test2)
+        #print(json_str)
         file_name = open("C:\\pro\\LX\\testfile\\game_list.txt",'w',)
-        file_name.write(json_str)
+        #file_name.write(json_str)
         file_name.close()
     except :
 
