@@ -8,10 +8,11 @@ def connect_mysql():
 
      try:
          cur.execute(sql1)
-         results = cur.fetchall()
+         result1 = cur.fetchone()
 
-         len1=len(results)
-         print(results,len1)
+
+         #len1=len(results)
+         print(result1)
 
 
      except Exception as e:
