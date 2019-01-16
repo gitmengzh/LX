@@ -42,14 +42,14 @@ def readTable(cursor):
 
 def findRecord(cursor,key,value):
 
-    sql = "select * from student where" + key + "=" + value
+    sql = "select * from student where " + key + "=" + "'"+value+"'"  #select * from database where key = 'value'
     cursor.execute(sql)
     result = cursor.fetchall()
 
     print(result, "successfully find")
 
-def deleteRecord(db,cursor,key,value):
-    sql = "delete from student where"+ key +"=" +value
+def deleteRecord(cursor,key,value):
+    sql = "delete from student where "+ key + "= '" + value+"'"  #delete from table where key = 'value'
     cursor.execute(sql)
     db.commit()
 
@@ -70,7 +70,7 @@ if __name__ == '__main__':
 
     findRecord(cursor,"name","tom")
 
-    deleteRecord(db,cursor,"name", "tom")
+    deleteRecord(cursor,"name", "tom")
 
     sql = "update student set age = 30 where id =2"
     cursor.execute(sql)
