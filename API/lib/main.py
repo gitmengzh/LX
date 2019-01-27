@@ -7,7 +7,7 @@
 # @Software: PyCharm
 
 
-from lib.tools import op_mysql
+from API.lib.tools import op_mysql
 
 import flask,json
 
