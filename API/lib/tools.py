@@ -12,7 +12,7 @@ from API.conf import setting
 
 def op_mysql(sql):
     conn = pymysql.connect(host=setting.MYSQL_HOST,user = setting.USER,
-                           password = setting.PASSWORRD,port = setting.PORT,
+                           password = setting.PASSWORD,port = setting.PORT,
                            charset = 'utf-8',db = setting.DB)
 
     cur = conn.cursor(cursor = pymysql.cursors.DictCursor)

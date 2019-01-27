@@ -16,14 +16,14 @@ server = flask.Flask(__name__)
 
 @server.route('/get_user',methods = ['get','post'])
 
-def feg_all_user():
+def get_all_user():
     sql = 'select * from bt_stu limit 5;'
     res = op_mysql(sql = sql)
     response = json.dumps(res,ensure_ascii=False)
     return response
 
 
-@server.router('/add_user',methods = ['post'])
+@server.route('/add_user',methods = ['post'])
 def add_user():
     user_id = flask.request.valuse.get('id')
     user_name = flask.request.values.get('u')

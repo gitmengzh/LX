@@ -8,8 +8,8 @@
 
 
 
-MYSQL_HOST = ''
+MYSQL_HOST = 'Localhost'
 PASSWORD = '123456'
 PORT = '3306'
-USER = ''
-DB = ''
+USER = 'test'
+DB = 'test'
